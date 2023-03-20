@@ -6,6 +6,7 @@ import json
 import webbrowser
 import os
 import random
+import sys
 
 print (r"""\
 
@@ -44,6 +45,13 @@ def again():
     while True:
         vrn = input('Enter the VRN:')
 
+        if len(sys.argv) > 1:
+
+            opt = str(sys.argv[1])
+
+        else :
+            opt = ''
+
         url = "https://beta.check-mot.service.gov.uk/trade/vehicles/mot-tests?registration=" + vrn
 
         headers = CaseInsensitiveDict()
@@ -55,24 +63,28 @@ def again():
             
             datas = json.loads(resp.text)
 
+            print(" ")
             print (datas[0]["make"] + ',' + datas[0]["model"] + ',' + datas[0]["primaryColour"])
-
+            print(" ")
 
             #print(datas[0]["motTests"][0]["motTestNumber"])
             #print(resp['make'])
+            if opt != 's':
+                
+                f = open('C:\\Temp\\vehicles.html','w')
 
-            f = open('C:\\Temp\\vehicles.html','w')
+                html_page = """<html><h1><ul><li>""" + 'Make/Brand: ' + datas[0]["make"] + '<li>' + 'Model: ' + datas[0]["model"] + '<li>' + 'Colour: ' + datas[0]["primaryColour"] + """</h1>
+                <iframe id="if1" width="100%" height="1000" style="visibility:visible" src="https://www.bing.com/images/search?q=""" + datas[0]["make"] + ' ' + datas[0]["model"] + ' ' + datas[0]["primaryColour"] + """&form=HDRSC3&first=1&tsc=ImageHoverTitle"></iframe>
+                </html>"""
 
-            html_page = """<html><h1><ul><li>""" + 'Make/Brand: ' + datas[0]["make"] + '<li>' + 'Model: ' + datas[0]["model"] + '<li>' + 'Colour: ' + datas[0]["primaryColour"] + """</h1>
-            <iframe id="if1" width="100%" height="1000" style="visibility:visible" src="https://www.bing.com/images/search?q=""" + datas[0]["make"] + ' ' + datas[0]["model"] + ' ' + datas[0]["primaryColour"] + """&form=HDRSC3&first=1&tsc=ImageHoverTitle"></iframe>
-            </html>"""
+                f.write(html_page)
+                f.close()
 
-            f.write(html_page)
-            f.close()
+                webbrowser.open('C:\\Temp\\vehicles.html')
 
-            webbrowser.open('C:\\Temp\\vehicles.html')
-
-            return again ()
+                return again ()
+            else :
+                return again()
     
         else :
 
