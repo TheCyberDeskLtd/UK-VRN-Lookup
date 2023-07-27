@@ -1,4 +1,4 @@
-**You will need an API Key from the DVSA to us this application**
+**You will need an API Key from the DVSA to use this application**
 
 You can get a key here: https://dvsa.github.io/mot-history-api-documentation/
 
